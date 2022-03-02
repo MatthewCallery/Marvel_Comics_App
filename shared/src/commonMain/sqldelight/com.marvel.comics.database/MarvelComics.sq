@@ -1,4 +1,14 @@
 
 CREATE TABLE MarvelCharacters(
-id INTEGER NOT NULL PRIMARY KEY
+id INTEGER NOT NULL PRIMARY KEY,
+name TEXT
 );
+
+insertCharacter:
+INSERT OR REPLACE INTO MarvelCharacters(id, name)VALUES(?, ?);
+
+selectAll:
+SELECT * FROM MarvelCharacters;
+
+deleteAll:
+DELETE FROM MarvelCharacters;
