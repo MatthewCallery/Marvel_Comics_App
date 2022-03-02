@@ -6,6 +6,7 @@ plugins {
     id("com.android.library")
     id("com.squareup.sqldelight")
     id("com.rickclephas.kmp.nativecoroutines")
+    id("com.codingfeline.buildkonfig")
 }
 
 android {
@@ -113,5 +114,14 @@ sqldelight {
     database("MarvelDatabase") {
         packageName = "com.marvel.comics.database"
         sourceFolders = listOf("sqldelight")
+    }
+}
+
+buildkonfig {
+    packageName = "com.marvel.comics"
+
+    defaultConfigs {
+        buildConfigField(STRING, "publicMarvelApiKey", "55c2cecd9b18d4c5bc971bea1f04409e")
+        buildConfigField(STRING, "privateMarvelApiKey", "e0d5742faad44c572317e57d1e28baf7757fc994")
     }
 }

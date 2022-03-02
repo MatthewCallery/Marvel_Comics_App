@@ -11,6 +11,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.10")
         classpath("com.squareup.sqldelight:gradle-plugin:1.5.3")
         classpath("com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin:0.11.3")
+        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.11.0")
     }
 }
 
