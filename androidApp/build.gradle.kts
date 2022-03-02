@@ -49,7 +49,6 @@ dependencies {
 
     // Android
     implementation("com.google.android.material:material:1.5.0")
-    implementation("org.osmdroid:osmdroid-android:6.1.10")
 
     // AndroidX
     implementation("androidx.appcompat:appcompat:1.4.1")
