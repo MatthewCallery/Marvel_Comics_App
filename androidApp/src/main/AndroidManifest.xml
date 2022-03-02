@@ -3,14 +3,15 @@
     package="com.marvel.comics.android">
 
     <application
+        android:name=".MarvelComicsApplication"
         android:allowBackup="false"
-        android:supportsRtl="true"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
