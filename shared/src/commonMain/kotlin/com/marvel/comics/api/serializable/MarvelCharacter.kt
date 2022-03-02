@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MarvelCharacter(
     val id: Int,
-    val name: String?,
-    val description: String?,
-    val resourceURI: String?,
-    val urls: List<MarvelUrl>?,
-    val thumbnail: MarvelImage?,
-    val comics: ComicList?
+    val name: String? = null,
+    val description: String? = null,
+    val resourceURI: String? = null,
+    val urls: List<MarvelUrl>? = null,
+    val thumbnail: MarvelImage? = null,
+    val comics: ComicList? = null
 )
