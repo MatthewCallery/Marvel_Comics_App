@@ -42,9 +42,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                // Kermit logging
+                api("co.touchlab:kermit:1.0.0")
+
                 // Koin
-                implementation("io.insert-koin:koin-core:3.1.4")
-                implementation("io.insert-koin:koin-test:3.1.4")
+                api("io.insert-koin:koin-core:3.1.4")
+                api("io.insert-koin:koin-test:3.1.4")
 
                 // KotlinX
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
@@ -57,6 +60,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-logging:2.0.0-beta-1")
                 implementation("io.ktor:ktor-client-content-negotiation:2.0.0-beta-1")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0-beta-1")
+
+                // Okio
+                implementation("com.squareup.okio:okio:3.0.0")
 
                 // SQLDelight
                 implementation("com.squareup.sqldelight:runtime:1.5.3")
