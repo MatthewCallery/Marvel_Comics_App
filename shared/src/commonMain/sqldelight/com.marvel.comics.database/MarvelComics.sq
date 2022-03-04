@@ -1,11 +1,13 @@
 
 CREATE TABLE MarvelCharacters(
 id INTEGER NOT NULL PRIMARY KEY,
-name TEXT
+name TEXT,
+description TEXT,
+image TEXT
 );
 
 insertCharacter:
-INSERT OR REPLACE INTO MarvelCharacters(id, name)VALUES(?, ?);
+INSERT OR REPLACE INTO MarvelCharacters(id, name, description, image)VALUES(?, ?, ?, ?);
 
 selectAll:
 SELECT * FROM MarvelCharacters;
