@@ -10,5 +10,6 @@ data class MarvelCharacter(
     val resourceURI: String? = null,
     val urls: List<MarvelUrl>? = null,
     val thumbnail: MarvelImage? = null,
-    val comics: ComicList? = null
+    val comics: ComicList? = null,
+    val imageUrl: String? = null
 )

@@ -24,7 +24,7 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
     private val database: MarvelDatabaseWrapper by inject()
 
     private val databaseQueries = database.instance?.marvelComicsQueries
-    private val logger = Logger.withTag("PeopleInSpaceRepository")
+    private val logger = Logger.withTag("MarvelRepository")
 
     init {
         coroutineScope.launch {
@@ -34,8 +34,13 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
 
     override fun fetchCharactersAsFlow(): Flow<List<MarvelCharacter>> =
         databaseQueries?.selectAll(
-            mapper = { id, name ->
-                MarvelCharacter(id = id.toInt(), name = name)
+            mapper = { id, name, description, image ->
+                MarvelCharacter(
+                    id = id.toInt(),
+                    name = name,
+                    description = description,
+                    imageUrl = image
+                )
             }
         )?.asFlow()?.mapToList() ?: flowOf(emptyList())
 
@@ -44,10 +49,13 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
             val result = marvelComicsApi.fetchCharacterDataWrapper()
 
             databaseQueries?.transaction {
+                databaseQueries.deleteAll()
                 result.data?.results?.forEach {
                     databaseQueries.insertCharacter(
                         id = it.id.toLong(),
-                        name = it.name
+                        name = it.name,
+                        description = it.description,
+                        image = "${it.thumbnail?.path}/standard_medium.${it.thumbnail?.extension}"
                     )
                 }
             }
