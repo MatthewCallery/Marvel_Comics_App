@@ -5,6 +5,8 @@
     <dimen name="padding_m">16dp</dimen>
     <dimen name="padding_l">32dp</dimen>
 
+    <dimen name="elevation_card">4dp</dimen>
+
     <dimen name="image_corner_radius">10dp</dimen>
     <dimen name="image_size_small">70dp</dimen>
     <dimen name="image_size_large">120dp</dimen>
