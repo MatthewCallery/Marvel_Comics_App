@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 actual fun platformModule() = module {
     single {
-        val driver = NativeSqliteDriver(MarvelDatabase.Schema, "peopleinspace.db")
+        val driver = NativeSqliteDriver(MarvelDatabase.Schema, "marvelcomics.db")
         MarvelDatabaseWrapper(MarvelDatabase(driver))
     }
     single { Ios.create() }
