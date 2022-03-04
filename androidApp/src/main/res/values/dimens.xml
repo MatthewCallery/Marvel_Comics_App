@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_xs">4dp</dimen>
+    <dimen name="padding_s">8dp</dimen>
+    <dimen name="padding_m">16dp</dimen>
+    <dimen name="padding_l">32dp</dimen>
+
+    <dimen name="image_corner_radius">10dp</dimen>
+    <dimen name="image_size_small">70dp</dimen>
+
+    <dimen name="char_item_view_spacer">12dp</dimen>
+</resources>
