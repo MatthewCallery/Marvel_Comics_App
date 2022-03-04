@@ -24,5 +24,5 @@ fun MarvelComicsTheme(
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) DarkColorPalette else LightColorPalette
-    MaterialTheme(colors = colors, content = content)
+    MaterialTheme(content = content, colors = colors, typography = MarvelTypography)
 }
