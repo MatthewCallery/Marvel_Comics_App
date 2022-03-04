@@ -2,16 +2,13 @@ package com.marvel.comics.android.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import coil.annotation.ExperimentalCoilApi
-import com.marvel.comics.android.R
 import com.marvel.comics.android.viewmodel.MarvelComicsViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -31,9 +28,7 @@ fun CharacterDetailScreen(characterName: String, popBack: () -> Unit) {
         }
     ) {
         Column(
-            modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_m))
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ) {
             character?.let {
