@@ -1,6 +1,5 @@
 package com.marvel.comics.android.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,13 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -22,7 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
 import com.marvel.comics.android.R
 import com.marvel.comics.android.theme.MarvelComicsTheme
 import com.marvel.comics.api.serializable.MarvelCharacter
@@ -48,12 +44,13 @@ fun CharacterItemView(
             .padding(dimensionResource(id = R.dimen.padding_m)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CharacterItemViewImage(
-            characterImageUrl = character.imageUrl ?: "",
+        CharacterImageView(
+            characterImageUrl = character.imageUrl,
+            imageSize = dimensionResource(id = R.dimen.image_size_small),
             contentDescription = characterName
         )
 
-        Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.char_item_view_spacer)))
+        Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.spacer_size_small)))
 
         Column {
             Text(text = characterName, style = MaterialTheme.typography.h2)
@@ -64,22 +61,6 @@ fun CharacterItemView(
                 overflow = TextOverflow.Ellipsis
             )
         }
-    }
-}
-
-@ExperimentalCoilApi
-@Composable
-fun CharacterItemViewImage(characterImageUrl: String, contentDescription: String) {
-    if (characterImageUrl.isNotEmpty()) {
-        Image(
-            painter = rememberImagePainter(characterImageUrl),
-            modifier = Modifier
-                .clip(RoundedCornerShape(dimensionResource(id = R.dimen.image_corner_radius)))
-                .size(dimensionResource(id = R.dimen.image_size_small)),
-            contentDescription = contentDescription
-        )
-    } else {
-        Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.image_size_small)))
     }
 }
 
