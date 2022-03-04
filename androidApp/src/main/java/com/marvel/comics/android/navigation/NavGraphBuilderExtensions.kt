@@ -11,8 +11,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.navigation.animation.composable
-import com.marvel.comics.android.ui.CharacterDetailScreen
-import com.marvel.comics.android.ui.CharacterListScreen
+import com.marvel.comics.android.ui.screencharacterdetail.CharacterDetailScreen
+import com.marvel.comics.android.ui.screencharacterlist.CharacterListScreen
 
 private const val screenTransitionDuration = 1000
 

@@ -10,6 +10,8 @@
     <dimen name="image_corner_radius">10dp</dimen>
     <dimen name="image_size_small">70dp</dimen>
     <dimen name="image_size_large">120dp</dimen>
+    <dimen name="image_comic_height">150dp</dimen>
+    <dimen name="image_comic_width">100dp</dimen>
 
     <dimen name="spacer_size_small">12dp</dimen>
     <dimen name="spacer_size_large">24dp</dimen>

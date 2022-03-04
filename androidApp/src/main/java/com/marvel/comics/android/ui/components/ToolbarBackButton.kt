@@ -1,4 +1,4 @@
-package com.marvel.comics.android.ui
+package com.marvel.comics.android.ui.components
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton

@@ -1,11 +1,9 @@
-package com.marvel.comics.android.ui
+package com.marvel.comics.android.ui.screencharacterdetail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -16,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import coil.annotation.ExperimentalCoilApi
 import com.marvel.comics.android.R
+import com.marvel.comics.android.ui.components.CharacterImageView
+import com.marvel.comics.android.ui.components.SpacerMedium
 import com.marvel.comics.api.serializable.MarvelCharacter
 
 @ExperimentalCoilApi
@@ -33,7 +33,8 @@ fun CharacterDetailHeaderView(character: MarvelCharacter) {
             ) {
                 CharacterImageView(
                     characterImageUrl = character.imageUrl,
-                    imageSize = dimensionResource(id = R.dimen.image_size_large),
+                    imageHeight = dimensionResource(id = R.dimen.image_size_large),
+                    imageWidth = dimensionResource(id = R.dimen.image_size_large),
                     contentDescription = characterName
                 )
 

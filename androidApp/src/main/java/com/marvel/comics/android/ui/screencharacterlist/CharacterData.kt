@@ -1,4 +1,4 @@
-package com.marvel.comics.android.ui
+package com.marvel.comics.android.ui.screencharacterlist
 
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import com.marvel.comics.api.serializable.MarvelCharacter

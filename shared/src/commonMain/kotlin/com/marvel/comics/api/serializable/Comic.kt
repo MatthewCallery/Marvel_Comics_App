@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class Comic(
     val id: Int,
     val title: String?,
-    val thumbnail: String,
-    val description: String
+    val description: String?,
+    val thumbnail: MarvelImage?
 )

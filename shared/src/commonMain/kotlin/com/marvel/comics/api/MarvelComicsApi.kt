@@ -18,22 +18,21 @@ class MarvelComicsApi(
 
     suspend fun fetchCharacterDataWrapper(): MarvelCharacterDataWrapper =
         client.get("$baseUrl/characters") {
-            addMarvelApiParams()
+            addMarvelApiParams(limit = 20, offset = 0)
         }.body()
 
-    suspend fun fetchComicDataWrapper(characterId: Int): ComicDataWrapper =
+    suspend fun fetchComicDataWrapper(characterId: Int, limit: Int, offset: Int): ComicDataWrapper =
         client.get("$baseUrl/characters/$characterId/comics") {
-            addMarvelApiParams()
+            addMarvelApiParams(limit = limit, offset = offset)
         }.body()
 
-    private fun HttpRequestBuilder.addMarvelApiParams() {
-        val timestamp = generateTimestamp()
+    private fun HttpRequestBuilder.addMarvelApiParams(limit: Int, offset: Int) {
+        val timestamp = Clock.System.now().toEpochMilliseconds().toString()
 
         parameter("apikey", BuildKonfig.publicMarvelApiKey)
         parameter("ts", timestamp)
         parameter("hash", md5Hash(timestamp = timestamp))
-        parameter("limit", 100)
+        parameter("limit", limit)
+        parameter("offset", offset)
     }
-
-    private fun generateTimestamp(): String = Clock.System.now().toEpochMilliseconds().toString()
 }

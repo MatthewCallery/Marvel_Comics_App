@@ -1,4 +1,4 @@
-package com.marvel.comics.android.ui
+package com.marvel.comics.android.ui.screencharacterlist
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn

@@ -1,4 +1,4 @@
-package com.marvel.comics.android.ui
+package com.marvel.comics.android.ui.screencharacterlist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import coil.annotation.ExperimentalCoilApi
 import com.marvel.comics.android.R
 import com.marvel.comics.android.theme.MarvelComicsTheme
+import com.marvel.comics.android.ui.components.CharacterImageView
 import com.marvel.comics.api.serializable.MarvelCharacter
 
 @ExperimentalCoilApi
@@ -46,7 +47,8 @@ fun CharacterItemView(
     ) {
         CharacterImageView(
             characterImageUrl = character.imageUrl,
-            imageSize = dimensionResource(id = R.dimen.image_size_small),
+            imageHeight = dimensionResource(id = R.dimen.image_size_small),
+            imageWidth = dimensionResource(id = R.dimen.image_size_small),
             contentDescription = characterName
         )
 
