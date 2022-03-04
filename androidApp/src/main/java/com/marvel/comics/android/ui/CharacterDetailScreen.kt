@@ -38,9 +38,3 @@ fun CharacterDetailScreen(characterName: String, popBack: () -> Unit) {
     }
 }
 
-@ExperimentalCoilApi
-@Composable
-fun CharacterDetailHeader() {
-
-}
-
