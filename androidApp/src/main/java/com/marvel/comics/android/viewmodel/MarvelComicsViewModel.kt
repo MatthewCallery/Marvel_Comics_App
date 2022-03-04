@@ -24,8 +24,9 @@ class MarvelComicsViewModel(
     val marvelCharacters = repository.fetchCharactersAsFlow()
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
-    val characterComics = repository.fetchComicsAsFlow()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    val characterComics
+        get() = repository.fetchComicsAsFlow()
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     fun getCharacter(characterName: String): MarvelCharacter? =
         marvelCharacters.value.find { it.name == characterName }
