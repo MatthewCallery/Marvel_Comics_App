@@ -10,6 +10,7 @@ import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.marvel.comics.android.navigation.Screen
+import com.marvel.comics.android.navigation.addCharacterDetailScreen
 import com.marvel.comics.android.navigation.addCharacterListScreen
 import com.marvel.comics.android.theme.MarvelComicsTheme
 
@@ -36,6 +37,7 @@ fun MainLayout() {
                     navController = navController,
                     paddingValues = paddingValues
                 )
+                this.addCharacterDetailScreen(navController = navController)
             }
         }
     }
