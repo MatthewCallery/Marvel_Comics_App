@@ -99,9 +99,7 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
         }
     }
 
-    override fun fetchComicsAsFlow(): Flow<List<Comic>> {
-        return flow { emit(comics.toList()) }
-    }
+    override fun getAllComics(): List<Comic> = comics
 
     override fun resetComicList() = comics.clear()
 }

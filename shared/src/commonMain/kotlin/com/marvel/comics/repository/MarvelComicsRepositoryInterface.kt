@@ -11,6 +11,6 @@ interface MarvelComicsRepositoryInterface {
     suspend fun getAllCharacters(term: String): List<MarvelCharacter>
 
     suspend fun fetchComics(characterId: Int, limit: Int, offset: Int)
-    fun fetchComicsAsFlow(): Flow<List<Comic>>
+    fun getAllComics(): List<Comic>
     fun resetComicList()
 }

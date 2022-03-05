@@ -9,35 +9,35 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import coil.annotation.ExperimentalCoilApi
+import com.marvel.comics.android.ui.components.LoadingView
 import com.marvel.comics.android.ui.components.ToolbarBackButton
 import com.marvel.comics.android.viewmodel.MarvelComicsViewModel
-import org.koin.androidx.compose.getViewModel
+import com.marvel.comics.api.serializable.Comic
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 const val ComicListTag = "ComicList"
 
+@ExperimentalCoroutinesApi
 @ExperimentalCoilApi
 @Composable
 fun CharacterDetailScreen(
     characterName: String,
-    viewModel: MarvelComicsViewModel = getViewModel(),
+    viewModel: MarvelComicsViewModel,
     popBack: () -> Unit
 ) {
 
-    val character = viewModel.getCharacter(characterName)
-    val comicState = viewModel.characterComics.collectAsState()
-
     LaunchedEffect(Unit) {
-        viewModel.resetComicList()
+        viewModel.loadNewComicList(characterName = characterName)
     }
 
-    character?.let {
-        viewModel.updateComicList(characterId = character.id)
-    }
+    val character = viewModel.getCharacter(characterName)
+    val comics = viewModel.comics
+    val isLoading = viewModel.isLoadingComics
 
     Scaffold(
         topBar = {
@@ -52,14 +52,24 @@ fun CharacterDetailScreen(
             horizontalAlignment = Alignment.Start
         ) {
             character?.let {
-                CharacterDetailHeaderView(character = it)
+                CharacterDetailHeaderView(character)
             }
 
-            LazyColumn(modifier = Modifier.testTag(ComicListTag)) {
-                items(comicState.value) { comic ->
-                    ComicItemView(comic = comic)
-                }
+            if (isLoading.value) {
+                LoadingView()
+            } else {
+                ComicListUi(comics = comics)
             }
+        }
+    }
+}
+
+@ExperimentalCoilApi
+@Composable
+fun ComicListUi(comics: SnapshotStateList<Comic>) {
+    LazyColumn(modifier = Modifier.testTag(ComicListTag)) {
+        items(comics) { comic ->
+            ComicItemView(comic = comic)
         }
     }
 }
