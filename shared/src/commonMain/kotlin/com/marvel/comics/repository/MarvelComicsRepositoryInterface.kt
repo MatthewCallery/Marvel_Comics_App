@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 interface MarvelComicsRepositoryInterface {
 
     suspend fun fetchAndStoreCharacters()
-    fun fetchCharactersAsFlow(): Flow<List<MarvelCharacter>>
+    suspend fun getAllCharacters(): List<MarvelCharacter>
+    suspend fun getAllCharacters(term: String): List<MarvelCharacter>
 
     suspend fun fetchComics(characterId: Int, limit: Int, offset: Int)
     fun fetchComicsAsFlow(): Flow<List<Comic>>

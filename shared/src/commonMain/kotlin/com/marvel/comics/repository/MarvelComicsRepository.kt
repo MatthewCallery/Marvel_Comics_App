@@ -39,6 +39,31 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
         }
     }
 
+    override suspend fun getAllCharacters(): List<MarvelCharacter> =
+        databaseQueries?.selectAll(
+            mapper = { id, name, description, image ->
+                MarvelCharacter(
+                    id = id.toInt(),
+                    name = name,
+                    description = description,
+                    imageUrl = image
+                )
+            }
+        )?.executeAsList() ?: emptyList()
+
+    override suspend fun getAllCharacters(term: String): List<MarvelCharacter> =
+        databaseQueries?.searchOnCharacter(
+            searchQuery = "$term%",
+            mapper = { id, name, description, image ->
+                MarvelCharacter(
+                    id = id.toInt(),
+                    name = name,
+                    description = description,
+                    imageUrl = image
+                )
+            }
+        )?.executeAsList() ?: emptyList()
+
     override suspend fun fetchAndStoreCharacters() {
         try {
             val result = marvelComicsApi.fetchCharacterDataWrapper()
@@ -58,18 +83,6 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
             logger.w(e) { "Exception during fetchAndStoreCharacters: $e" }
         }
     }
-
-    override fun fetchCharactersAsFlow(): Flow<List<MarvelCharacter>> =
-        databaseQueries?.selectAll(
-            mapper = { id, name, description, image ->
-                MarvelCharacter(
-                    id = id.toInt(),
-                    name = name,
-                    description = description,
-                    imageUrl = image
-                )
-            }
-        )?.asFlow()?.mapToList() ?: flowOf(emptyList())
 
     override suspend fun fetchComics(characterId: Int, limit: Int, offset: Int) {
         try {
