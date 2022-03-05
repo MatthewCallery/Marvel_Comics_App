@@ -13,14 +13,18 @@ import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.navigation.animation.composable
 import com.marvel.comics.android.ui.screencharacterdetail.CharacterDetailScreen
 import com.marvel.comics.android.ui.screencharacterlist.CharacterListScreen
+import com.marvel.comics.android.viewmodel.MarvelComicsViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 private const val screenTransitionDuration = 1000
 
+@ExperimentalCoroutinesApi
 @ExperimentalCoilApi
-@OptIn(ExperimentalAnimationApi::class)
+@ExperimentalAnimationApi
 fun NavGraphBuilder.addCharacterListScreen(
     navController: NavHostController,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    viewModel: MarvelComicsViewModel
 ) {
     this.composable(
         route = Screen.CharacterList.title,
@@ -33,14 +37,19 @@ fun NavGraphBuilder.addCharacterListScreen(
             paddingValues = paddingValues,
             onCharacterSelected = {
                 navController.navigate(Screen.CharacterDetails.title + "/${it.name}")
-            }
+            },
+            viewModel = viewModel
         )
     }
 }
 
+@ExperimentalCoroutinesApi
 @ExperimentalCoilApi
-@OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.addCharacterDetailScreen(navController: NavHostController) {
+@ExperimentalAnimationApi
+fun NavGraphBuilder.addCharacterDetailScreen(
+    navController: NavHostController,
+    viewModel: MarvelComicsViewModel
+) {
     this.composable(
         route = Screen.CharacterDetails.title + "/{character}",
         enterTransition = {
@@ -50,7 +59,8 @@ fun NavGraphBuilder.addCharacterDetailScreen(navController: NavHostController) {
     ) { backStackEntry ->
         CharacterDetailScreen(
             backStackEntry.arguments?.get("character") as String,
-            popBack = { navController.popBackStack() }
+            popBack = { navController.popBackStack() },
+            viewModel = viewModel
         )
     }
 }

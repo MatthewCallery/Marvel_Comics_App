@@ -13,8 +13,12 @@ import com.marvel.comics.android.navigation.Screen
 import com.marvel.comics.android.navigation.addCharacterDetailScreen
 import com.marvel.comics.android.navigation.addCharacterListScreen
 import com.marvel.comics.android.theme.MarvelComicsTheme
+import com.marvel.comics.android.viewmodel.MarvelComicsViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,10 +28,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalCoroutinesApi
 @ExperimentalCoilApi
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainLayout() {
+
+    val viewModel: MarvelComicsViewModel = getViewModel()
     val navController = rememberAnimatedNavController()
 
     MarvelComicsTheme {
@@ -35,9 +42,13 @@ fun MainLayout() {
             AnimatedNavHost(navController, startDestination = Screen.CharacterList.title) {
                 this.addCharacterListScreen(
                     navController = navController,
-                    paddingValues = paddingValues
+                    paddingValues = paddingValues,
+                    viewModel = viewModel
                 )
-                this.addCharacterDetailScreen(navController = navController)
+                this.addCharacterDetailScreen(
+                    navController = navController,
+                    viewModel = viewModel
+                )
             }
         }
     }
