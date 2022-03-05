@@ -35,7 +35,47 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
 
     init {
         coroutineScope.launch {
-            fetchAndStoreCharacters()
+            databaseQueries?.deleteAll()
+            fetchAndStoreAllCharacters()
+        }
+    }
+
+    override suspend fun fetchAndStoreAllCharacters() {
+        var characterOffset = 0
+        var totalCharacters = 1
+
+        while (characterOffset < totalCharacters) {
+            try {
+                val result = marvelComicsApi.fetchCharacterDataWrapper(
+                    limit = characterLimit,
+                    offset = characterOffset
+                )
+                result.data?.let { data ->
+                    data.total?.let { totalCharacters = it }
+                    data.results?.let { storeCharacters(characters = it) }
+                }
+            } catch (e: Exception) {
+                logger.w(e) { "Exception during fetchAndStoreAllCharacters: $e" }
+            }
+
+            characterOffset += characterLimit
+        }
+    }
+
+    override suspend fun storeCharacters(characters: List<MarvelCharacter>) {
+        try {
+            databaseQueries?.transaction {
+                characters.forEach {
+                    databaseQueries.insertCharacter(
+                        id = it.id.toLong(),
+                        name = it.name,
+                        description = it.description,
+                        image = "${it.thumbnail?.path}/standard_medium.${it.thumbnail?.extension}"
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            logger.w(e) { "Exception during storeCharacters: $e" }
         }
     }
 
@@ -64,26 +104,6 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
             }
         )?.executeAsList() ?: emptyList()
 
-    override suspend fun fetchAndStoreCharacters() {
-        try {
-            val result = marvelComicsApi.fetchCharacterDataWrapper()
-
-            databaseQueries?.transaction {
-                databaseQueries.deleteAll()
-                result.data?.results?.forEach {
-                    databaseQueries.insertCharacter(
-                        id = it.id.toLong(),
-                        name = it.name,
-                        description = it.description,
-                        image = "${it.thumbnail?.path}/standard_medium.${it.thumbnail?.extension}"
-                    )
-                }
-            }
-        } catch (e: Exception) {
-            logger.w(e) { "Exception during fetchAndStoreCharacters: $e" }
-        }
-    }
-
     override suspend fun fetchComics(characterId: Int, limit: Int, offset: Int) {
         try {
             val result = marvelComicsApi.fetchComicDataWrapper(
@@ -102,4 +122,8 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
     override fun getAllComics(): List<Comic> = comics
 
     override fun resetComicList() = comics.clear()
+
+    companion object {
+        private const val characterLimit = 100
+    }
 }

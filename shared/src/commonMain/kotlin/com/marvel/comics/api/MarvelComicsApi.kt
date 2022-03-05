@@ -17,10 +17,12 @@ class MarvelComicsApi(
 ) : KoinComponent {
 
     suspend fun fetchCharacterDataWrapper(
+        limit: Int,
+        offset: Int,
         timestamp: String = Clock.System.now().toEpochMilliseconds().toString()
     ): MarvelCharacterDataWrapper =
         client.get("$baseUrl/characters") {
-            addMarvelApiParams(limit = 20, offset = 0, timestamp = timestamp)
+            addMarvelApiParams(limit = limit, offset = offset, timestamp = timestamp)
         }.body()
 
     suspend fun fetchComicDataWrapper(
