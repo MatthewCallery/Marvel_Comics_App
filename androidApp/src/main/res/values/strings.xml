@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Marvel Comics</string>
-    <string name="title_screen_character_list">Marvel Characters</string>
+    <string name="app_name">Marvel Characters</string>
 
-    <string name="nav_back">Back</string>
+    <string name="content_descript_back">Back</string>
+    <string name="content_descript_search">Search</string>
 
     <string name="warning_name_not_found">Name not found</string>
     <string name="warning_descript_not_found">Tap to learn more about %1$s</string>

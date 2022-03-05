@@ -13,7 +13,7 @@ fun ToolbarBackButton(onClickBack: () -> Unit) {
     IconButton(onClick = { onClickBack() }) {
         Icon(
             Icons.Filled.ArrowBack,
-            contentDescription = stringResource(id = R.string.nav_back)
+            contentDescription = stringResource(id = R.string.content_descript_back)
         )
     }
 }
