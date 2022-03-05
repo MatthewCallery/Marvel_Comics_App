@@ -16,19 +16,28 @@ class MarvelComicsApi(
     private val baseUrl: String = "https://gateway.marvel.com/v1/public"
 ) : KoinComponent {
 
-    suspend fun fetchCharacterDataWrapper(): MarvelCharacterDataWrapper =
+    suspend fun fetchCharacterDataWrapper(
+        timestamp: String = Clock.System.now().toEpochMilliseconds().toString()
+    ): MarvelCharacterDataWrapper =
         client.get("$baseUrl/characters") {
-            addMarvelApiParams(limit = 20, offset = 0)
+            addMarvelApiParams(limit = 20, offset = 0, timestamp = timestamp)
         }.body()
 
-    suspend fun fetchComicDataWrapper(characterId: Int, limit: Int, offset: Int): ComicDataWrapper =
+    suspend fun fetchComicDataWrapper(
+        characterId: Int,
+        limit: Int,
+        offset: Int,
+        timestamp: String = Clock.System.now().toEpochMilliseconds().toString()
+    ): ComicDataWrapper =
         client.get("$baseUrl/characters/$characterId/comics") {
-            addMarvelApiParams(limit = limit, offset = offset)
+            addMarvelApiParams(limit = limit, offset = offset, timestamp = timestamp)
         }.body()
 
-    private fun HttpRequestBuilder.addMarvelApiParams(limit: Int, offset: Int) {
-        val timestamp = Clock.System.now().toEpochMilliseconds().toString()
-
+    private fun HttpRequestBuilder.addMarvelApiParams(
+        limit: Int,
+        offset: Int,
+        timestamp: String
+    ) {
         parameter("apikey", BuildKonfig.publicMarvelApiKey)
         parameter("ts", timestamp)
         parameter("hash", md5Hash(timestamp = timestamp))
