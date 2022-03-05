@@ -47,6 +47,6 @@ class MarvelComicsViewModel(
     }
 
     companion object {
-        private const val comicLimit = 20
+        private const val comicLimit = 100
     }
 }
