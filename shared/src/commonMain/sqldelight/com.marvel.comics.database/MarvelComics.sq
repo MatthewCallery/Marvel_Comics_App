@@ -14,3 +14,7 @@ SELECT * FROM MarvelCharacters;
 
 deleteAll:
 DELETE FROM MarvelCharacters;
+
+searchOnCharacter:
+SELECT * FROM MarvelCharacters
+WHERE name LIKE :searchQuery;
