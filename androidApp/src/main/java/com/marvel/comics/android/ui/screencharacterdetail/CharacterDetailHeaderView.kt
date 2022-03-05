@@ -25,7 +25,7 @@ fun CharacterDetailHeaderView(character: MarvelCharacter) {
     val characterName = character.name ?: ""
     val characterDescription = character.description ?: ""
 
-    Surface(elevation = dimensionResource(id = R.dimen.elevation_card)) {
+    Surface(elevation = dimensionResource(id = R.dimen.elevation_standard)) {
         Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_m))) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
