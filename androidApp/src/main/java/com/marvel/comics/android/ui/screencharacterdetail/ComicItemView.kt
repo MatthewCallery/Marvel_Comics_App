@@ -60,7 +60,7 @@ fun ComicItemView(comic: Comic) {
 
                 Text(
                     text = comicDescription,
-                    style = MaterialTheme.typography.subtitle1.copy(color = Color.DarkGray)
+                    style = MaterialTheme.typography.subtitle1
                 )
             }
         }

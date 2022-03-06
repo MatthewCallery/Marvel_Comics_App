@@ -58,7 +58,7 @@ fun CharacterItemView(
             Text(text = characterName, style = MaterialTheme.typography.h2)
             Text(
                 text = characterDescription,
-                style = MaterialTheme.typography.subtitle2.copy(color = Color.DarkGray),
+                style = MaterialTheme.typography.subtitle2,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

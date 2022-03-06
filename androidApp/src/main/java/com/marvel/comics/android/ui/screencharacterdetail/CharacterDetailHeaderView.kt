@@ -48,7 +48,7 @@ fun CharacterDetailHeaderView(character: MarvelCharacter) {
 
                 Text(
                     text = characterDescription,
-                    style = MaterialTheme.typography.subtitle1.copy(color = Color.DarkGray)
+                    style = MaterialTheme.typography.subtitle1
                 )
             }
         }
