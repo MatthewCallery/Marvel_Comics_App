@@ -1,9 +1,6 @@
 package com.marvel.comics.android.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,8 +13,6 @@ import com.marvel.comics.android.ui.screencharacterlist.CharacterListScreen
 import com.marvel.comics.android.viewmodel.MarvelComicsViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-private const val screenTransitionDuration = 1000
-
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
 @ExperimentalAnimationApi
@@ -28,9 +23,7 @@ fun NavGraphBuilder.addCharacterListScreen(
 ) {
     this.composable(
         route = Screen.CharacterList.title,
-        exitTransition = {
-            slideOutHorizontally() + fadeOut(animationSpec = tween(screenTransitionDuration))
-        },
+        exitTransition = { slideOutHorizontally() },
         popEnterTransition = { slideInHorizontally() }
     ) {
         CharacterListScreen(
@@ -52,9 +45,7 @@ fun NavGraphBuilder.addCharacterDetailScreen(
 ) {
     this.composable(
         route = Screen.CharacterDetails.title + "/{character}",
-        enterTransition = {
-            slideInHorizontally() + fadeIn(animationSpec = tween(screenTransitionDuration))
-        },
+        enterTransition = { slideInHorizontally() },
         popExitTransition = { slideOutHorizontally() }
     ) { backStackEntry ->
         CharacterDetailScreen(
