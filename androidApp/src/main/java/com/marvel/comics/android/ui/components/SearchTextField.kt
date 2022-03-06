@@ -15,7 +15,10 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
 
 @Composable
-internal fun SearchTextField(search: String, onSearch: (String?) -> Unit, ) {
+internal fun SearchTextField(
+    search: String,
+    onSearch: (String?) -> Unit
+) {
 
     val textFieldColors = TextFieldDefaults.textFieldColors()
     val focusRequester = remember { FocusRequester() }
@@ -36,8 +39,6 @@ internal fun SearchTextField(search: String, onSearch: (String?) -> Unit, ) {
     )
 
     LaunchedEffect(Unit) {
-        if (search.isEmpty()) {
-            focusRequester.requestFocus()
-        }
+        if (search.isEmpty()) focusRequester.requestFocus()
     }
 }
