@@ -46,10 +46,8 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
                     limit = characterLimit,
                     offset = characterOffset
                 )
-                result.data?.let { data ->
-                    data.total?.let { totalCharacters = it }
-                    data.results?.let { storeCharacters(characters = it) }
-                }
+                result.data?.total?.let { totalCharacters = it }
+                result.data?.results?.let { storeCharacters(characters = it) }
             } catch (e: Exception) {
                 clearDaysSinceCharactersFetch()
                 logger.w(e) { "Exception during fetchAndStoreAllCharacters: $e" }
