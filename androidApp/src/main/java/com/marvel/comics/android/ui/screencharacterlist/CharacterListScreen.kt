@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -27,7 +28,9 @@ fun CharacterListScreen(
     paddingValues: PaddingValues = PaddingValues()
 ) {
 
-    viewModel.loadCharacters()
+    LaunchedEffect(Unit) {
+        viewModel.loadCharacters()
+    }
 
     val characters by viewModel.characters.collectAsState()
     val search by viewModel.search.collectAsState()
