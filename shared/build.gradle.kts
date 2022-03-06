@@ -61,9 +61,6 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:2.0.0-beta-1")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0-beta-1")
 
-                // Okio
-                implementation("com.squareup.okio:okio:3.0.0")
-
                 // SQLDelight
                 implementation("com.squareup.sqldelight:runtime:1.5.3")
                 implementation("com.squareup.sqldelight:coroutines-extensions:1.5.3")

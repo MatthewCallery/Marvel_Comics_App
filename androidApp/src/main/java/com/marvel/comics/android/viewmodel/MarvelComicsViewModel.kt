@@ -104,7 +104,7 @@ class MarvelComicsViewModel(
     }
 
     /**
-     * Private methods
+     * Helper methods
      */
 
     private fun <T> Flow<T>.stateInViewModel(initialValue: T): StateFlow<T> =
