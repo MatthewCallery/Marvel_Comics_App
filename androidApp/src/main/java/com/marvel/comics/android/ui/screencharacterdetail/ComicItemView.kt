@@ -1,9 +1,11 @@
 package com.marvel.comics.android.ui.screencharacterdetail
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,30 +30,39 @@ fun ComicItemView(comic: Comic) {
         "${it.path}/portrait_medium.${it.extension}"
     } ?: ""
 
-    Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_m))) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            CharacterImageView(
-                characterImageUrl = comicImageUrl,
-                imageHeight = dimensionResource(id = R.dimen.image_comic_height),
-                imageWidth = dimensionResource(id = R.dimen.image_comic_width),
-                contentDescription = comicTitle
-            )
+    Card(
+        elevation = 0.dp,
+        border = BorderStroke(
+            width = dimensionResource(id = R.dimen.image_border_width),
+            color = Color.LightGray
+        ),
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_s))
+    ) {
+        Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_m))) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                CharacterImageView(
+                    characterImageUrl = comicImageUrl,
+                    imageHeight = dimensionResource(id = R.dimen.image_comic_height),
+                    imageWidth = dimensionResource(id = R.dimen.image_comic_width),
+                    contentDescription = comicTitle
+                )
 
-            SpacerMedium()
+                SpacerMedium()
 
-            Text(text = comicTitle, style = MaterialTheme.typography.h1)
-        }
+                Text(text = comicTitle, style = MaterialTheme.typography.h1)
+            }
 
-        if (comicDescription.isNotEmpty()) {
-            SpacerMedium()
+            if (comicDescription.isNotEmpty()) {
+                SpacerMedium()
 
-            Text(
-                text = comicDescription,
-                style = MaterialTheme.typography.subtitle1.copy(color = Color.DarkGray)
-            )
+                Text(
+                    text = comicDescription,
+                    style = MaterialTheme.typography.subtitle1.copy(color = Color.DarkGray)
+                )
+            }
         }
     }
 }
