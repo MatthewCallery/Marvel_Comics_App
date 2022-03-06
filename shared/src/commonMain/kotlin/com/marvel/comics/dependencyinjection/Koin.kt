@@ -25,10 +25,17 @@ import org.koin.dsl.module
 /**
  * Android Koin dependency injection initialisation
  */
-fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclaration = {}) =
+fun initKoin(
+    enableNetworkLogs: Boolean = false,
+    isTest: Boolean = false,
+    appDeclaration: KoinAppDeclaration = {}
+) =
     startKoin {
         appDeclaration()
-        modules(commonModule(enableNetworkLogs = enableNetworkLogs), platformModule())
+        modules(
+            commonModule(enableNetworkLogs = enableNetworkLogs, isTest = isTest),
+            platformModule()
+        )
     }
 
 fun commonModule(enableNetworkLogs: Boolean, isTest: Boolean = false) = module {
