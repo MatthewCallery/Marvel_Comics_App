@@ -29,7 +29,7 @@ Both screens use Jetpack Compose's `LazyColumn` component, which only composes a
 #### Character List screen:
 I've made a conscious decision to sacrifice a little in performance for a boost in usability.
 
-The first time the app is opened, it fetches all of the characters from the Marvel API and caches them in a SQLite database on the user's device. Only strings are stored, so the storage required is negligible.The app will only refetch data from the Marvel API every 7 days (it's rare that they create a new character).
+The first time the app is opened, it fetches all of the characters from the Marvel API and caches them in a SQLite database on the user's device. Only strings are stored, so the storage required is negligible. The app will only refetch data from the Marvel API every 7 days (it's rare that they create a new character).
 
 The advantage of this approach is that it enables offline use of the app and no further API calls are required when a user is searching for a particular superhero.
 
