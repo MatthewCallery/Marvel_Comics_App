@@ -6,18 +6,11 @@ import com.marvel.comics.api.serializable.Comic
 import com.marvel.comics.api.serializable.MarvelCharacter
 import com.marvel.comics.dependencyinjection.MarvelDatabaseWrapper
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutineScope
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
+import com.russhwolf.settings.Settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -32,11 +25,14 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
     private val databaseQueries = database.instance?.marvelComicsQueries
     private val comics: MutableList<Comic> = mutableListOf()
     private val logger = Logger.withTag("MarvelRepository")
+    private val settings: Settings = Settings()
 
     init {
         coroutineScope.launch {
-            databaseQueries?.deleteAll()
-            fetchAndStoreAllCharacters()
+            if (daysSinceCharactersFetch() >= daysInWeek) {
+                resetDaysSinceCharactersFetch()
+                fetchAndStoreAllCharacters()
+            }
         }
     }
 
@@ -55,6 +51,7 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
                     data.results?.let { storeCharacters(characters = it) }
                 }
             } catch (e: Exception) {
+                clearDaysSinceCharactersFetch()
                 logger.w(e) { "Exception during fetchAndStoreAllCharacters: $e" }
             }
 
@@ -75,6 +72,7 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
                 }
             }
         } catch (e: Exception) {
+            clearDaysSinceCharactersFetch()
             logger.w(e) { "Exception during storeCharacters: $e" }
         }
     }
@@ -123,7 +121,28 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
 
     override fun resetComicList() = comics.clear()
 
+    private fun daysSinceCharactersFetch(): Int {
+        val currentTimestamp = Clock.System.now().toEpochMilliseconds()
+        val lastFetchTimestamp =
+            settings.getLong(key = keyDaysSinceCharactersFetch, defaultValue = 0)
+        val difference = currentTimestamp - lastFetchTimestamp
+        return (difference / (milliInSecond * secondsInMinute * minsInHour * hoursInDay)).toInt()
+    }
+
+    private fun resetDaysSinceCharactersFetch() {
+        val timestamp = Clock.System.now().toEpochMilliseconds()
+        settings.putLong(key = keyDaysSinceCharactersFetch, value = timestamp)
+    }
+
+    private fun clearDaysSinceCharactersFetch() = settings.remove(key = keyDaysSinceCharactersFetch)
+
     companion object {
         private const val characterLimit = 100
+        private const val keyDaysSinceCharactersFetch = "DaysSinceCharactersFetch"
+        private const val milliInSecond = 1000
+        private const val secondsInMinute = 60
+        private const val minsInHour = 60
+        private const val hoursInDay = 24
+        private const val daysInWeek = 7
     }
 }
