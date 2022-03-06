@@ -23,18 +23,28 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
     private val database: MarvelDatabaseWrapper by inject()
 
     private val databaseQueries = database.instance?.marvelComicsQueries
+    private val characters: MutableList<MarvelCharacter> = mutableListOf()
     private val comics: MutableList<Comic> = mutableListOf()
     private val logger = Logger.withTag("MarvelRepository")
     private val settings: Settings = Settings()
+
+    override var isFetchingCharacters: Boolean = true
 
     init {
         coroutineScope.launch {
             if (daysSinceCharactersFetch() >= daysInWeek) {
                 resetDaysSinceCharactersFetch()
                 fetchAndStoreAllCharacters()
+            } else {
+                characters.addAll(loadCharactersFromDatabase())
             }
+            isFetchingCharacters = false
         }
     }
+
+    /**
+     * Characters
+     */
 
     override suspend fun fetchAndStoreAllCharacters() {
         var characterOffset = 0
@@ -47,7 +57,10 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
                     offset = characterOffset
                 )
                 result.data?.total?.let { totalCharacters = it }
-                result.data?.results?.let { storeCharacters(characters = it) }
+                result.data?.results?.let { listOfCharacters ->
+                    updateCharacterList(chars = listOfCharacters)
+                    storeCharactersInDatabase(chars = listOfCharacters)
+                }
             } catch (e: Exception) {
                 clearDaysSinceCharactersFetch()
                 logger.w(e) { "Exception during fetchAndStoreAllCharacters: $e" }
@@ -57,10 +70,16 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
         }
     }
 
-    override suspend fun storeCharacters(characters: List<MarvelCharacter>) {
+    private fun updateCharacterList(chars: List<MarvelCharacter>) =
+        chars.forEach {
+            val imageUrl = "${it.thumbnail?.path}/standard_medium.${it.thumbnail?.extension}"
+            if (!characters.contains(it)) characters.add(it.copy(imageUrl = imageUrl))
+        }
+
+    private fun storeCharactersInDatabase(chars: List<MarvelCharacter>) =
         try {
             databaseQueries?.transaction {
-                characters.forEach {
+                chars.forEach {
                     databaseQueries.insertCharacter(
                         id = it.id.toLong(),
                         name = it.name,
@@ -73,9 +92,8 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
             clearDaysSinceCharactersFetch()
             logger.w(e) { "Exception during storeCharacters: $e" }
         }
-    }
 
-    override suspend fun getAllCharacters(): List<MarvelCharacter> =
+    private fun loadCharactersFromDatabase(): List<MarvelCharacter> =
         databaseQueries?.selectAll(
             mapper = { id, name, description, image ->
                 MarvelCharacter(
@@ -86,6 +104,8 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
                 )
             }
         )?.executeAsList() ?: emptyList()
+
+    override fun getAllCharacters(): List<MarvelCharacter> = characters
 
     override suspend fun getAllCharacters(term: String): List<MarvelCharacter> =
         databaseQueries?.searchOnCharacter(
@@ -99,6 +119,25 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
                 )
             }
         )?.executeAsList() ?: emptyList()
+
+    private fun daysSinceCharactersFetch(): Int {
+        val currentTimestamp = Clock.System.now().toEpochMilliseconds()
+        val lastFetchTimestamp =
+            settings.getLong(key = keyDaysSinceCharactersFetch, defaultValue = 0)
+        val difference = currentTimestamp - lastFetchTimestamp
+        return (difference / (milliInSecond * secondsInMinute * minsInHour * hoursInDay)).toInt()
+    }
+
+    private fun resetDaysSinceCharactersFetch() {
+        val timestamp = Clock.System.now().toEpochMilliseconds()
+        settings.putLong(key = keyDaysSinceCharactersFetch, value = timestamp)
+    }
+
+    private fun clearDaysSinceCharactersFetch() = settings.remove(key = keyDaysSinceCharactersFetch)
+
+    /**
+     * Comics
+     */
 
     override suspend fun fetchComics(characterId: Int, limit: Int, offset: Int) {
         try {
@@ -118,21 +157,6 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
     override fun getAllComics(): List<Comic> = comics
 
     override fun resetComicList() = comics.clear()
-
-    private fun daysSinceCharactersFetch(): Int {
-        val currentTimestamp = Clock.System.now().toEpochMilliseconds()
-        val lastFetchTimestamp =
-            settings.getLong(key = keyDaysSinceCharactersFetch, defaultValue = 0)
-        val difference = currentTimestamp - lastFetchTimestamp
-        return (difference / (milliInSecond * secondsInMinute * minsInHour * hoursInDay)).toInt()
-    }
-
-    private fun resetDaysSinceCharactersFetch() {
-        val timestamp = Clock.System.now().toEpochMilliseconds()
-        settings.putLong(key = keyDaysSinceCharactersFetch, value = timestamp)
-    }
-
-    private fun clearDaysSinceCharactersFetch() = settings.remove(key = keyDaysSinceCharactersFetch)
 
     companion object {
         private const val characterLimit = 100

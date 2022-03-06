@@ -55,7 +55,12 @@ class MarvelComicsViewModel(
 
     fun loadCharacters() = effect {
         _isLoadingCharacters.value = true
-        allCharacters.value = repository.getAllCharacters()
+
+        do {
+            allCharacters.value = repository.getAllCharacters()
+            _isLoadingCharacters.value = allCharacters.value.isEmpty()
+        } while (repository.isFetchingCharacters)
+
         _isLoadingCharacters.value = false
     }
 
