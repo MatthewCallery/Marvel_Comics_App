@@ -7,7 +7,7 @@ The app is built using [Jetpack Compose](https://developer.android.com/jetpack/c
 
 ### Architecture
 - MVVM architecture
-- Kotlin multiplatform app, albeit one where only the Android app has been built
+- [Kotlin multiplatform](https://kotlinlang.org/lp/mobile/) app, albeit one where only the Android app has been built
 - Networking logic sits in the `shared` folder and could be reused by an iOS app
 - Android specific code sits in the `androidApp` folder
 - `iosApp` folder can be ignored
