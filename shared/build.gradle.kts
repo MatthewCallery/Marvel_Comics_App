@@ -61,6 +61,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:2.0.0-beta-1")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0-beta-1")
 
+                // Multiplatform Settings
+                implementation("com.russhwolf:multiplatform-settings-no-arg:0.8.1")
+
                 // SQLDelight
                 implementation("com.squareup.sqldelight:runtime:1.5.3")
                 implementation("com.squareup.sqldelight:coroutines-extensions:1.5.3")
