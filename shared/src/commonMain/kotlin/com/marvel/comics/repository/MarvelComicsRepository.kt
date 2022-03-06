@@ -14,7 +14,9 @@ import kotlinx.datetime.Clock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
+class MarvelComicsRepository(
+    private val settings: Settings
+) : KoinComponent, MarvelComicsRepositoryInterface {
 
     @NativeCoroutineScope
     private val coroutineScope: CoroutineScope = MainScope()
@@ -26,7 +28,6 @@ class MarvelComicsRepository : KoinComponent, MarvelComicsRepositoryInterface {
     private val characters: MutableList<MarvelCharacter> = mutableListOf()
     private val comics: MutableList<Comic> = mutableListOf()
     private val logger = Logger.withTag("MarvelRepository")
-    private val settings: Settings = Settings()
 
     override var isFetchingCharacters: Boolean = true
 

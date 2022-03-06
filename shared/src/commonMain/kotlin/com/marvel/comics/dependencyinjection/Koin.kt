@@ -4,6 +4,8 @@ import com.marvel.comics.api.MarvelComicsApi
 import com.marvel.comics.repository.MarvelComicsRepository
 import com.marvel.comics.repository.MarvelComicsRepositoryInterface
 import com.marvel.comics.repository.platformModule
+import com.russhwolf.settings.MockSettings
+import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.ContentNegotiation
@@ -29,13 +31,15 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
         modules(commonModule(enableNetworkLogs = enableNetworkLogs), platformModule())
     }
 
-fun commonModule(enableNetworkLogs: Boolean) = module {
+fun commonModule(enableNetworkLogs: Boolean, isTest: Boolean = false) = module {
     single { createJson() }
     single { createHttpClient(get(), get(), enableNetworkLogs = enableNetworkLogs) }
 
     single { CoroutineScope(Dispatchers.Default + SupervisorJob()) }
 
-    single<MarvelComicsRepositoryInterface> { MarvelComicsRepository() }
+    single { if (isTest) MockSettings() else Settings() }
+
+    single<MarvelComicsRepositoryInterface> { MarvelComicsRepository(get()) }
 
     single { MarvelComicsApi(get()) }
 }

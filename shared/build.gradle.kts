@@ -63,6 +63,7 @@ kotlin {
 
                 // Multiplatform Settings
                 implementation("com.russhwolf:multiplatform-settings-no-arg:0.8.1")
+                implementation("com.russhwolf:multiplatform-settings-test:0.8.1")
 
                 // SQLDelight
                 implementation("com.squareup.sqldelight:runtime:1.5.3")
