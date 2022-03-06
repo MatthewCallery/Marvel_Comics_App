@@ -50,3 +50,9 @@ Simple `slideInHorizontally`/`slideOutHorizontally` animations for the screen tr
 - Increase unit test coverage, particularly of the view model
 - Add a loading animation or logo to the splash screen
 - Build an iOS app using the `shared` business logic
+
+### Video - Light mode
+https://user-images.githubusercontent.com/13498475/156947138-4765c1fd-d1c4-49ec-945c-e1c85f8aca7c.mp4
+
+### Video - Dark mode
+https://user-images.githubusercontent.com/13498475/156947159-31ad57bc-810e-4b63-9ded-f4918298966b.mp4
